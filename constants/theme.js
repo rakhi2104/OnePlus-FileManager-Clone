@@ -1,14 +1,9 @@
 const palette = {
-  red: "#f50714",
+  primary: "#0071cd",
   black: "#000",
   white: "#faf9fb",
-};
-
-const POSTER_SIZES = {
-  regular: {
-    width: 420,
-    height: 626,
-  },
+  gray: "#8e8d8e",
+  card: "#201f22",
 };
 
 const sizes = {
@@ -22,11 +17,11 @@ const sizes = {
 
 const theme = {
   colors: {
-    primary: palette.red,
+    primary: palette.primary,
     secondary: palette.black,
     white: palette.white,
     black: palette.black,
-    error: palette.red,
+    error: palette.primary,
   },
   Text: {
     style: {
@@ -51,4 +46,4 @@ const theme = {
   },
 };
 
-export { palette, sizes, theme, POSTER_SIZES };
+export { palette, sizes, theme };

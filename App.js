@@ -22,7 +22,7 @@ const TabsNavigation = () => {
     <Tabs.Navigator
       initialRouteName="Explore"
       tabBarOptions={{
-        activeTintColor: palette.red,
+        activeTintColor: palette.primary,
         style: {
           height: BOTTOM_BAR_HEIGHT,
           backgroundColor: palette.black,
