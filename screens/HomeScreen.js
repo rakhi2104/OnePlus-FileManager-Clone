@@ -1,89 +1,44 @@
 import React from "react";
-import { View } from "react-native";
-import { Icon, Text } from "react-native-elements";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import { Text, View } from "react-native";
+import { ListItem } from "react-native-elements";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import IconListItem from "../components/IconListItem";
 import SafeView from "../components/SafeView";
 import StatsCard from "../components/StatsCard";
+import { FILE_CATEGORIES, STATS, TOTAL, USED_SIZE } from "../constants/data";
 import { palette, sizes } from "../constants/theme";
 
-const getRandomValue = (min = 0, max = 1000) => {
-  return Math.round(Math.random() * max);
-};
-
-const STATS = [
-  {
-    icon: "file-text",
-    title: "Documents",
-    iconColor: "#f57c36",
-    value: getRandomValue(),
-  },
-  {
-    icon: "download",
-    title: "Downloads",
-    iconColor: "#46c9d5",
-    value: getRandomValue(),
-  },
-  {
-    icon: "clock",
-    title: "Recents",
-    iconColor: "#c8d936",
-    value: getRandomValue(),
-  },
-  {
-    icon: "image",
-    title: "Images",
-    iconColor: "#46bca5",
-    value: getRandomValue(),
-  },
-  {
-    icon: "video",
-    title: "Videos",
-    iconColor: "#5877ea",
-    value: getRandomValue(),
-  },
-  {
-    icon: "music",
-    title: "Audio",
-    iconColor: "#d82b65",
-    value: getRandomValue(),
-  },
-];
-
 const HomeScreen = (props) => {
+  const { navigation } = props;
   return (
-    <SafeView style={{ paddingHorizontal: 4 }}>
-      <TouchableHighlight>
-        <View
-          style={{
+    <SafeView style={{ paddingHorizontal: sizes.xs / 2 }}>
+      <TouchableNativeFeedback
+        background={TouchableNativeFeedback.Ripple(palette.card, false)}
+      >
+        <ListItem
+          containerStyle={{
+            backgroundColor: palette.black,
+            paddingStart: 0,
+            paddingEnd: 0,
             display: "flex",
-            flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "baseline",
-            paddingHorizontal: sizes.xs / 4,
+            flexDirection: "row",
+          }}
+          onPress={() => {
+            navigation.navigate("Storage Information");
           }}
         >
-          <Text style={{ color: palette.gray }}>
-            Available 69.46 GB / 128 GB
-          </Text>
-          <View
+          <ListItem.Title
             style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
+              color: palette.gray,
+              fontSize: sizes.xs - 2,
             }}
           >
-            <Text style={{ color: palette.gray, fontSize: sizes.xs * 0.75 }}>
-              Details
-            </Text>
-            <Icon
-              name="chevron-right"
-              type="feather"
-              color={palette.gray}
-              size={sizes.xs}
-            />
-          </View>
-        </View>
-      </TouchableHighlight>
+            Available {USED_SIZE} GB / {TOTAL} GB
+          </ListItem.Title>
+          <ListItem.Chevron color={palette.gray} />
+        </ListItem>
+      </TouchableNativeFeedback>
       <View
         style={{
           display: "flex",
@@ -91,11 +46,22 @@ const HomeScreen = (props) => {
           flexWrap: "wrap",
           alignContent: "center",
           justifyContent: "space-between",
-          marginVertical: sizes.xs,
+          marginBottom: sizes.sm,
         }}
       >
         {STATS.map((stat, index) => (
           <StatsCard {...stat} key={index} />
+        ))}
+      </View>
+
+      <View
+        style={{
+          display: "flex",
+          marginBottom: sizes.xxl,
+        }}
+      >
+        {FILE_CATEGORIES.map((item, index) => (
+          <IconListItem {...item} key={index} />
         ))}
       </View>
     </SafeView>

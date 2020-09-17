@@ -3,7 +3,7 @@ const palette = {
   black: "#000",
   white: "#faf9fb",
   gray: "#8e8d8e",
-  card: "#201f22",
+  card: "#212121",
 };
 
 const sizes = {

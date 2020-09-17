@@ -2,14 +2,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { View } from "react-native";
+import { Dimensions, ProgressBarAndroidBase, View } from "react-native";
 import { colors, Icon } from "react-native-elements";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { palette, sizes, theme } from "./constants/theme";
 import HomeScreen from "./screens/HomeScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import SettingsScreen from "./screens/SettingsScreen";
+import StorageScreen from "./screens/StorageScreen";
 
 const BOTTOM_BAR_HEIGHT = sizes.xs * 4;
 const TOP_BAR_HEIGHT = BOTTOM_BAR_HEIGHT * 1.5;
@@ -67,7 +67,7 @@ const getHeader = (route) => {
       return { headerShown: false };
     case "Explore":
     case "Home":
-      return { headerShown: true, headerTitle: "Home" };
+      return { headerShown: true, headerTitle: "File Manager" };
     default:
       return { headerShown: false };
   }
@@ -113,6 +113,8 @@ const getHeaderRightIcons = (route) => {
     case "Explore":
     case "Home":
       return IconsRight;
+    case "Storage Information":
+      return "Storage information";
     default:
       return null;
   }
@@ -122,6 +124,7 @@ const StackNavigation = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
+        headerTintColor: palette.white,
         headerTitleStyle: {
           fontSize: sizes.sm,
           color: palette.white,
@@ -136,7 +139,6 @@ const StackNavigation = (props) => {
           borderBottomWidth: 0.5,
           borderBottomColor: colors.grey0,
         },
-        // headerTransparent: true,
       }}
     >
       <Stack.Screen
@@ -150,12 +152,27 @@ const StackNavigation = (props) => {
         }}
       />
       <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={({ route }) => ({
-          headerTitle: null,
-          headerTintColor: palette.white,
-        })}
+        name="Storage Information"
+        component={StorageScreen}
+        options={{
+          cardStyleInterpolator: ({ current }) => ({
+            containerStyle: {
+              opacity: current.progress,
+              transform: [
+                {
+                  translateX: current.progress.interpolate({
+                    inputRange: [-1, 0, 1],
+                    outputRange: [-2, 0, 0],
+                  }),
+                  scale: current.progress.interpolate({
+                    inputRange: [0.99999, 1],
+                    outputRange: [1, 1],
+                  }),
+                },
+              ],
+            },
+          }),
+        }}
       />
     </Stack.Navigator>
   );
